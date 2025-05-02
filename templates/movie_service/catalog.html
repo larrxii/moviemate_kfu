@@ -45,7 +45,7 @@
         {% for movie in movies %}
         <div class="card">
             {% if movie.poster %}
-            <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="movie-poster">
+            <img src="{% static 'movie_service/movie_posters/'|add:movie.poster %}" alt="{{ movie.title }}" class="movie-poster">
             {% else %}
             <div class="movie-poster-placeholder">Нет постера</div>
             {% endif %}
@@ -60,7 +60,7 @@
                 {% endfor %}
             </div>
             
-            <a href="{% url 'film_detail' movie.id %}" class="btn-detail">Подробнее</a>
+            <a href="{% url 'movie_page' movie.id %}" class="btn-detail">Подробнее</a>
         </div>
         {% empty %}
         <div class="no-results">
