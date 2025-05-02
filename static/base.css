@@ -500,3 +500,110 @@ footer {
     margin-top: 30px;
     text-align: center;
 }
+
+/* Стили для страницы "Лучшее" */
+.content-type-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.toggle-btn {
+    padding: 10px 20px;
+    background: #f7fafd;
+    color: #444;
+    text-decoration: none;
+    border: 1px solid #e0e3e8;
+    font-weight: bold;
+}
+
+.toggle-btn:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.toggle-btn:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.toggle-btn.active {
+    background: #4361ee;
+    color: #fff;
+    border-color: #4361ee;
+}
+
+.per-page-selector {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.per-page-selector span {
+    color: #636e72;
+    font-size: 14px;
+}
+
+.per-page-btn {
+    padding: 5px 10px;
+    background: #f7fafd;
+    color: #444;
+    text-decoration: none;
+    border: 1px solid #e0e3e8;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.per-page-btn.active {
+    background: #4361ee;
+    color: #fff;
+    border-color: #4361ee;
+}
+
+.movie-rating {
+    margin: 0 15px 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating-value {
+    color: #4361ee;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.rating-count {
+    color: #636e72;
+    font-size: 14px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 30px;
+}
+
+.pagination-link, .pagination-current {
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.pagination-link {
+    background: #f7fafd;
+    color: #444;
+    border: 1px solid #e0e3e8;
+}
+
+.pagination-current {
+    background: #4361ee;
+    color: #fff;
+    border: 1px solid #4361ee;
+}
+
+.pagination-link:hover {
+    background: #eef6fb;
+    border-color: #b3d6fc;
+}

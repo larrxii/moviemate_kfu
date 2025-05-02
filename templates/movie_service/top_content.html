@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Лучшее{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Лучшее</h1>
+    
+    <!-- Переключатель фильмы/сериалы -->
+    <div class="content-type-toggle">
+        <a href="{% url 'top_content' %}?type=film&per_page={{ per_page }}" 
+           class="toggle-btn {% if is_film %}active{% endif %}">Фильмы</a>
+        <a href="{% url 'top_content' %}?type=series&per_page={{ per_page }}" 
+           class="toggle-btn {% if not is_film %}active{% endif %}">Сериалы</a>
+    </div>
+    
+    <!-- Выбор количества элементов на странице -->
+    <div class="per-page-selector">
+        <span>Показывать по:</span>
+        <a href="{% url 'top_content' %}?type={{ content_type }}&per_page=10" 
+           class="per-page-btn {% if per_page == 10 %}active{% endif %}">10</a>
+        <a href="{% url 'top_content' %}?type={{ content_type }}&per_page=20" 
+           class="per-page-btn {% if per_page == 20 %}active{% endif %}">20</a>
+        <a href="{% url 'top_content' %}?type={{ content_type }}&per_page=50" 
+           class="per-page-btn {% if per_page == 50 %}active{% endif %}">50</a>
+    </div>
+    
+    <!-- Список фильмов/сериалов -->
+    <div class="card-list">
+        {% for movie in page_obj %}
+        <div class="card">
+            {% if movie.poster %}
+            <img src="{% static 'movie_service/movie_posters/'|add:movie.poster %}" alt="{{ movie.title }}" class="movie-poster">
+            {% else %}
+            <div class="movie-poster-placeholder">Нет постера</div>
+            {% endif %}
+            
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.year }}</p>
+            
+            <!-- Рейтинг и количество оценок -->
+            <div class="movie-rating">
+                <span class="rating-value">{{ movie.avg_rating|floatformat:1 }}</span>
+                <span class="rating-count">({{ movie.reviews_count }} оценок)</span>
+            </div>
+            
+            <!-- Жанры фильма -->
+            <div class="movie-genres">
+                {% for genre in movie.genres.all|slice:":3" %}
+                <span class="genre-tag">{{ genre.name }}</span>
+                {% endfor %}
+            </div>
+            
+            <a href="{% url 'movie_page' movie.id %}" class="btn-detail">Подробнее</a>
+        </div>
+        {% empty %}
+        <div class="no-results">
+            <p>Нет доступных {% if is_film %}фильмов{% else %}сериалов{% endif %}</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Пагинация -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?type={{ content_type }}&per_page={{ per_page }}&page=1" class="pagination-link">&laquo; Первая</a>
+        <a href="?type={{ content_type }}&per_page={{ per_page }}&page={{ page_obj.previous_page_number }}" class="pagination-link">&lsaquo; Предыдущая</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <span class="pagination-current">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?type={{ content_type }}&per_page={{ per_page }}&page={{ num }}" class="pagination-link">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <a href="?type={{ content_type }}&per_page={{ per_page }}&page={{ page_obj.next_page_number }}" class="pagination-link">Следующая &rsaquo;</a>
+        <a href="?type={{ content_type }}&per_page={{ per_page }}&page={{ page_obj.paginator.num_pages }}" class="pagination-link">Последняя &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
