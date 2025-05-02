@@ -28,7 +28,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('/') # TODO: Replace it to his profile
             else:
-                error = "Неверный email или пароль."
+                error = "Неверный e-mail или пароль."
     else:
         form = UserLoginForm()
     return render(request, 'auth_service/login.html', {'form': form, 'error': error})

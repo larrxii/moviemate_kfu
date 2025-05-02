@@ -1,16 +1,49 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'auth_service/auth.css' %}">
 </head>
 <body>
-    <h2>Регистрация</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+    <div class="auth-box">
+        <div class="auth-title">Регистрация</div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="error-message">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ form.email.id_for_label }}">E-mail</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ form.password.id_for_label }}">Пароль</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="error-message">{{ form.password.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ form.password_confirm.id_for_label }}">Подтвердите пароль</label>
+            {{ form.password_confirm }}
+            {% if form.password_confirm.errors %}
+                <div class="error-message">{{ form.password_confirm.errors|striptags }}</div>
+            {% endif %}
+
+            <button type="submit" class="submit-button">Зарегистрироваться</button>
+        </form>
+        <div class="auth-footer">
+            Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+        </div>
+    </div>
 </body>
 </html>

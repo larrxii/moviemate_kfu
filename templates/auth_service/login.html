@@ -1,19 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Вход</title>
     <link rel="stylesheet" href="{% static 'auth_service/auth.css' %}">
 </head>
 <body>
-    <h2>Вход</h2>
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Войти</button>
-    </form>
+    <div class="auth-box">
+        <div class="auth-title">Вход</div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+
+            <label for="{{ form.email.id_for_label }}">E-mail</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ form.password.id_for_label }}">Пароль</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="error-message">{{ form.password.errors|striptags }}</div>
+            {% endif %}
+
+            <button type="submit" class="submit-button">Войти</button>
+        </form>
+        <div class="auth-footer">
+            Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </div>
+    </div>
 </body>
 </html>
