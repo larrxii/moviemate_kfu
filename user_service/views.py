@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
 from django.contrib.auth import update_session_auth_hash
 from .models import User
 from .forms import UserEditForm, UserPasswordChangeForm
@@ -9,9 +8,7 @@ from .forms import UserEditForm, UserPasswordChangeForm
 def edit_user(request, user_id):
     user_to_edit = get_object_or_404(User, pk=user_id)
 
-    # Только сам пользователь может редактировать свой профиль
     if request.user != user_to_edit:
-        # Возбуждаем 403, чтобы сработал кастомный шаблон
         from django.core.exceptions import PermissionDenied
         raise PermissionDenied
 

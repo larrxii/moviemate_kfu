@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
 from .models import User
 
 class UserEditForm(forms.ModelForm):
@@ -32,8 +33,6 @@ class UserEditForm(forms.ModelForm):
             raise forms.ValidationError(f"Имя пользователя '{username}' уже занято.")
         return username
 
-from django import forms
-from django.contrib.auth.forms import PasswordChangeForm
 
 class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
