@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from movie_service.models import Movie, Genre
 from movie_service.forms import MovieFilterForm
 
@@ -32,3 +32,13 @@ def catalog_view(request):
     }
     
     return render(request, 'movie_service/catalog.html', context)
+
+
+def movie_view(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    context = {
+        'movie': movie,
+    }
+    
+    return render(request, 'movie_service/movie_page.html', context)
