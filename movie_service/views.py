@@ -52,11 +52,11 @@ def top_content_view(request):
     is_film = request.GET.get('type', 'film') == 'film'
     per_page = int(request.GET.get('per_page', 10))
     page_number = request.GET.get('page', 1)
-    
+
     queryset = Movie.objects.filter(is_film=is_film).annotate(
         avg_rating=Avg('reviews__rating'),
         reviews_count=Count('reviews')
-    ).order_by('-avg_rating', '-reviews_count')
+    ).filter(reviews_count__gt=0).order_by('-avg_rating', '-reviews_count')
     
     paginator = Paginator(queryset, per_page)
     page_obj = paginator.get_page(page_number)

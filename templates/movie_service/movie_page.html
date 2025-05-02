@@ -113,6 +113,7 @@
             {% if user.is_authenticated %}
             <div class="add-review">
                 <h3>Добавить отзыв</h3>
+{#                TODO: make it work#}
                 <form method="post" action="{% url 'add_review' movie.id %}">
                     {% csrf_token %}
                     <div class="form-group">
