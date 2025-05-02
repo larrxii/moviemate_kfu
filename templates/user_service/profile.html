@@ -1,11 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Профиль {{ profile_user.username }}</title>
-    <link rel="stylesheet" href="{% static 'user_service/profile.css' %}">
-</head>
+
+{% block title %} Профиль {{ profile_user.username }} {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_service/profile.css' %}">
+{% endblock %}
+
+{% block content %}
 <body>
     <div class="profile-container">
         <div class="profile-header">
@@ -75,4 +77,4 @@
         </div>
     </div>
 </body>
-</html>
+{% endblock %}

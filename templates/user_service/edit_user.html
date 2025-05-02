@@ -1,11 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Редактировать профиль</title>
-    <link rel="stylesheet" href="{% static 'user_service/edit.css' %}">
-</head>
+
+{% block title %}Редактировать профиль{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_service/edit.css' %}">
+{% endblock %}
+{#TODO: make this work#}
+{% block content %}
 <body>
     <div class="edit-profile-box">
         <div class="edit-profile-title">Редактировать профиль</div>
@@ -60,4 +62,4 @@
         </form>
     </div>
 </body>
-</html>
+{% endblock %}
