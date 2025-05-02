@@ -1,11 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="{% static 'auth_service/auth.css' %}">
-</head>
+
+{% block title %}Регистрация{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'auth_service/auth.css' %}">
+{% endblock %}
+
+{% block content %}
 <body>
     <div class="auth-box">
         <div class="auth-title">Регистрация</div>
@@ -46,4 +48,4 @@
         </div>
     </div>
 </body>
-</html>
+{% endblock %}
