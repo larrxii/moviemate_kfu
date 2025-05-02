@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+import user_service.views as views
 
 urlpatterns = [
     path('<int:user_id>/', views.user_profile, name='user_profile'),
@@ -8,3 +8,4 @@ urlpatterns = [
     path('<int:user_id>/watchlist/', views.user_watchlist, name='user_watchlist'),
     path('<int:user_id>/watchlist/remove/<int:movie_id>/', views.remove_from_watchlist, name='remove_from_watchlist'),
 ]
+

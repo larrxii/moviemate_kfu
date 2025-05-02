@@ -130,3 +130,4 @@ def remove_from_watchlist(request, movie_id):
     if request.method == 'POST':
         Watchlist.objects.filter(user=request.user, movie_id=movie_id).delete()
     return redirect('user_watchlist', user_id=request.user.id)
+

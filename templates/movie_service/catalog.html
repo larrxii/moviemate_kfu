@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Каталог фильмов{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Каталог фильмов</h1>
+    
+    <!-- Форма фильтрации -->
+    <div class="search-form">
+        <form method="get">
+            <div class="form-row">
+                <div class="form-group">
+                    {{ filter_form.search_text.label_tag }}
+                    {{ filter_form.search_text }}
+                </div>
+                
+                <div class="form-group">
+                    {{ filter_form.year_from.label_tag }}
+                    {{ filter_form.year_from }}
+                </div>
+                
+                <div class="form-group">
+                    {{ filter_form.year_to.label_tag }}
+                    {{ filter_form.year_to }}
+                </div>
+                
+                <button type="submit" class="btn-search">Найти</button>
+            </div>
+            
+            <!-- Фильтр по жанрам -->
+            <div class="genres-filter">
+                <h3>Жанры</h3>
+                <div class="genres-list">
+                    {{ filter_form.genres }}
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Список фильмов -->
+    <div class="card-list">
+        {% for movie in movies %}
+        <div class="card">
+            {% if movie.poster %}
+            <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="movie-poster">
+            {% else %}
+            <div class="movie-poster-placeholder">Нет постера</div>
+            {% endif %}
+            
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.year }}</p>
+            
+            <!-- Жанры фильма -->
+            <div class="movie-genres">
+                {% for genre in movie.genres.all %}
+                <span class="genre-tag">{{ genre.name }}</span>
+                {% endfor %}
+            </div>
+            
+            <a href="{% url 'film_detail' movie.id %}" class="btn-detail">Подробнее</a>
+        </div>
+        {% empty %}
+        <div class="no-results">
+            <p>По вашему запросу ничего не найдено</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
