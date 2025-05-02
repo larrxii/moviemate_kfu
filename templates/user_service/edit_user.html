@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать профиль</title>
+    <link rel="stylesheet" href="{% static 'user_service/edit.css' %}">
+</head>
+<body>
+    <div class="edit-profile-box">
+        <div class="edit-profile-title">Редактировать профиль</div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="edit-profile-section-title">Основные данные</div>
+            {% if form.non_field_errors %}
+                <div class="error-message">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ form.email.id_for_label }}">E-mail</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors|striptags }}</div>
+            {% endif %}
+
+            <button type="submit" name="save_profile" class="submit-button">Сохранить</button>
+        </form>
+        <hr>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="edit-profile-section-title">Сменить пароль</div>
+            {% if pwd_form.non_field_errors %}
+                <div class="error-message">{{ pwd_form.non_field_errors }}</div>
+            {% endif %}
+
+            <label for="{{ pwd_form.old_password.id_for_label }}">Старый пароль</label>
+            {{ pwd_form.old_password }}
+            {% if pwd_form.old_password.errors %}
+                <div class="error-message">{{ pwd_form.old_password.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ pwd_form.new_password1.id_for_label }}">Новый пароль</label>
+            {{ pwd_form.new_password1 }}
+            {% if pwd_form.new_password1.errors %}
+                <div class="error-message">{{ pwd_form.new_password1.errors|striptags }}</div>
+            {% endif %}
+
+            <label for="{{ pwd_form.new_password2.id_for_label }}">Подтвердите новый пароль</label>
+            {{ pwd_form.new_password2 }}
+            {% if pwd_form.new_password2.errors %}
+                <div class="error-message">{{ pwd_form.new_password2.errors|striptags }}</div>
+            {% endif %}
+
+            <button type="submit" name="change_password" class="submit-button">Сменить пароль</button>
+        </form>
+    </div>
+</body>
+</html>
