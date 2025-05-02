@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль {{ profile_user.username }}</title>
+    <link rel="stylesheet" href="{% static 'user_service/profile.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>{{ profile_user.username }}</h1>
+            {% if is_own_profile %}
+                <a href="{% url 'edit_user' user_id=profile_user.id %}" class="edit-button">Редактировать профиль</a>
+            {% endif %}
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Статистика</h3>
+                <p>Оценено фильмов: <strong>{{ reviews_count }}</strong></p>
+                <p>Средняя оценка: <strong>{{ avg_rating }}</strong></p>
+                <p>Любимый жанр: <strong>{{ favorite_genre|default:"Не определен" }}</strong></p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Распределение оценок</h3>
+                <div class="rating-distribution">
+                    <div class="rating-bar">
+                        <span class="rating-label">Плохо (1-4)</span>
+                        <div class="bar" style="width: {{ rating_distribution.Плохо|default:0 }}%;">
+                            {{ rating_distribution.Плохо|default:0 }}
+                        </div>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">Хорошо (5-7)</span>
+                        <div class="bar" style="width: {{ rating_distribution.Хорошо|default:0 }}%;">
+                            {{ rating_distribution.Хорошо|default:0 }}
+                        </div>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">Отлично (8-9)</span>
+                        <div class="bar" style="width: {{ rating_distribution.Отлично|default:0 }}%;">
+                            {{ rating_distribution.Отлично|default:0 }}
+                        </div>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">Шедевр (10)</span>
+                        <div class="bar" style="width: {{ rating_distribution.Шедевр|default:0 }}%;">
+                            {{ rating_distribution.Шедевр|default:0 }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Топ-5 любимых фильмов</h3>
+                {% if top_movies %}
+                    <ul class="top-movies">
+                        {% for review in top_movies %}
+                            <li>
+                                <span class="movie-title">{{ review.movie.title }}</span>
+                                <span class="movie-rating">{{ review.rating }}/10</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Пользователь еще не оценил ни одного фильма</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
