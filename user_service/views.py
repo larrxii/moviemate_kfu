@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.db.models import Avg, Count
+from django.core.paginator import Paginator
 from .models import User
 from .forms import UserEditForm, UserPasswordChangeForm
-from movie_service.models import Review, MovieGenre
+from movie_service.models import Review, MovieGenre, Watchlist
 
 # Edit Section
 @login_required(login_url='/auth/login')
@@ -92,3 +93,40 @@ def user_profile(request, user_id):
     }
 
     return render(request, 'user_service/profile.html', context)
+
+@login_required(login_url='/auth/login')
+def user_reviews(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    reviews = Review.objects.filter(user=user).select_related('movie').order_by('-created_at')
+
+    paginator = Paginator(reviews, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'user_service/reviews.html', {
+        'profile_user': user,
+        'reviews': page_obj,
+        'is_own_profile': request.user.id == user.id,
+    })
+
+@login_required(login_url='/auth/login')
+def user_watchlist(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+
+    watchlist = Watchlist.objects.filter(user=user).select_related('movie').order_by('-id')
+
+    paginator = Paginator(watchlist, 10) # 10 фильмов на одной странице
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'user_service/watchlist.html', {
+        'profile_user': user,
+        'watchlist': page_obj,
+        'is_own_profile': request.user.id == user.id,
+    })
+
+@login_required(login_url='/auth/login')
+def remove_from_watchlist(request, movie_id):
+    if request.method == 'POST':
+        Watchlist.objects.filter(user=request.user, movie_id=movie_id).delete()
+    return redirect('user_watchlist', user_id=request.user.id)

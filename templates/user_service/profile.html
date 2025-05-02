@@ -11,10 +11,14 @@
         <div class="profile-header">
             <h1>{{ profile_user.username }}</h1>
             {% if is_own_profile %}
-                <a href="{% url 'edit_user' user_id=profile_user.id %}" class="edit-button">Редактировать профиль</a>
+                <div class="profile-actions">
+                    <a href="{% url 'edit_user' user_id=profile_user.id %}" class="profile-button">Редактировать профиль</a>
+                    <a href="{% url 'user_reviews' user_id=profile_user.id %}" class="profile-button">Мои оценки</a>
+                    <a href="{% url 'user_watchlist' user_id=profile_user.id %}" class="profile-button">Буду смотреть</a>
+                </div>
             {% endif %}
         </div>
-        
+
         <div class="stats-container">
             <div class="stat-card">
                 <h3>Статистика</h3>
@@ -22,7 +26,7 @@
                 <p>Средняя оценка: <strong>{{ avg_rating }}</strong></p>
                 <p>Любимый жанр: <strong>{{ favorite_genre|default:"Не определен" }}</strong></p>
             </div>
-            
+
             <div class="stat-card">
                 <h3>Распределение оценок</h3>
                 <div class="rating-distribution">
@@ -52,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="stat-card">
                 <h3>Топ-5 любимых фильмов</h3>
                 {% if top_movies %}

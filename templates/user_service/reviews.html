@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оценки {{ profile_user.username }}</title>
+    <link rel="stylesheet" href="{% static 'user_service/profile.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Оценки {{ profile_user.username }}</h1>
+            <div class="profile-actions">
+                <a href="{% url 'user_profile' user_id=profile_user.id %}" class="profile-button">Назад к профилю</a>
+            </div>
+        </div>
+        
+        <div class="reviews-container">
+            {% if reviews %}
+                <div class="stat-card full-width">
+                    <table class="reviews-table">
+                        <thead>
+                            <tr>
+                                <th>Фильм</th>
+                                <th>Оценка</th>
+                                <th>Дата</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for review in reviews %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'movie_page' movie_id=review.movie.id %}">
+                                            {{ review.movie.title }}
+                                        </a>
+                                    </td>
+                                    <td class="rating-cell">{{ review.rating }}/10</td>
+                                    <td>{{ review.created_at|date:"d.m.Y" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    {% include "user_service/pagination.html" with page_obj=reviews %}
+                </div>
+            {% else %}
+                <div class="stat-card">
+                    <p>Пользователь еще не оценил ни одного фильма.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
