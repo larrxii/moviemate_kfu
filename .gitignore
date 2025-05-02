@@ -1,0 +1,74 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# PyCharm project files
+.idea/
+
+# VSCode settings
+.vscode/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+db.sqlite3
+media/
+staticfiles/
+
+# Local environment variables
+.env
+.env.*
+
+# Migrations (если хотите игнорировать пустые, но обычно migrations коммитят)
+# */migrations/__pycache__/
+# */migrations/*.pyc
+
+# Test and coverage reports
+.coverage
+htmlcov/
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+.coverage.*
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Other
+*.swp
+*.swo
+
+# Pipenv/Poetry
+Pipfile.lock
+poetry.lock
+
+# Backup files
+*~
