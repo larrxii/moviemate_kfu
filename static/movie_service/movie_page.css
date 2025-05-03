@@ -254,6 +254,7 @@
 .btn-add-watchlist {
     background: #4361ee;
     color: white;
+    text-decoration: none;
 }
 
 .btn-add-watchlist:hover {

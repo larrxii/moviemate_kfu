@@ -80,11 +80,14 @@
                                 </form>
                             {% else %}
                                 <form method="POST" action="{% url 'add_to_favorites' movie.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-add-watchlist">Добавить в любимое</button>
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-add-watchlist">Добавить в любимое</button>
                                 </form>
                             {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn-add-watchlist">Добавить в любимое</a>
                         {% endif %}
+
                     </div>
 
                 </div>
