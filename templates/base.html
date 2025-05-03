@@ -25,6 +25,7 @@
                             <div class="dropdown-content">
                                 <a href="{% url 'user_reviews' user_id=user.id %}">Мои отзывы</a>
                                 <a href="{% url 'user_watchlist' user_id=user.id %}">Буду смотреть</a>
+                                <a href="{% url 'user_favorites' user_id=user.id%}">Любимое</a>
                                 <div class="dropdown-divider"></div>
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}

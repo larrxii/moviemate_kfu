@@ -5,7 +5,7 @@ from django.db.models import Avg, Count
 from django.core.paginator import Paginator
 from .models import User
 from .forms import UserEditForm, UserPasswordChangeForm
-from movie_service.models import Review, MovieGenre, Watchlist
+from movie_service.models import Review, MovieGenre, Watchlist, Favorites
 
 # Edit Section
 @login_required(login_url='/auth/login')
@@ -131,3 +131,26 @@ def remove_from_watchlist(request, movie_id):
         Watchlist.objects.filter(user=request.user, movie_id=movie_id).delete()
     return redirect('user_watchlist', user_id=request.user.id)
 
+@login_required(login_url='/auth/login')
+def user_favorites(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+
+    favorite_list = Favorites.objects.filter(user=user).select_related('movie').order_by('-id')
+
+    paginator = Paginator(favorite_list, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'user_service/favorites.html', {
+        'profile_user': user,
+        'favorites': page_obj,
+        'is_own_profile': request.user.id == user.id,
+    })
+
+@login_required(login_url='/auth/login')
+def remove_from_favorites(request, movie_id):
+    if request.method == 'POST':
+        Favorites.objects.filter(user=request.user, movie_id=movie_id).delete()
+
+    return redirect('user_favorites', user_id=request.user.id)
+    

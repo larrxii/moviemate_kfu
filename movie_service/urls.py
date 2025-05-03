@@ -9,4 +9,7 @@ urlpatterns = [
 
     path('watchlist/add/<int:movie_id>/', views.add_to_watchlist, name='add_to_watchlist'),
     path('watchlist/remove/<int:movie_id>/', views.remove_from_watchlist, name='remove_from_watchlist'),
+
+    path('favorites/add/<int:movie_id>/', views.add_to_favorites, name='add_to_favorites'),
+    path('favorites/remove/<int:movie_id>/', views.remove_from_favorites, name='remove_from_favorites'),
 ]

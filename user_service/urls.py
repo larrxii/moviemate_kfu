@@ -6,5 +6,6 @@ urlpatterns = [
     path('<int:user_id>/edit/', views.edit_user, name='edit_user'),
     path('<int:user_id>/reviews/', views.user_reviews, name='user_reviews'),
     path('<int:user_id>/watchlist/', views.user_watchlist, name='user_watchlist'),
+    path('<int:user_id>/favorites/', views.user_favorites, name='user_favorites'),
 ]
 

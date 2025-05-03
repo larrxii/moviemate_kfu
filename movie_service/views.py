@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect
-from movie_service.models import Movie, Genre, Review, Watchlist
+from movie_service.models import Favorites, Movie, Genre, Review, Watchlist
 from movie_service.forms import MovieFilterForm
 from django.shortcuts import render
 from django.core.paginator import Paginator
@@ -47,6 +47,10 @@ def movie_view(request, movie_id):
     if request.user.is_authenticated:
         in_watchlist = Watchlist.objects.filter(user=request.user, movie=movie).exists()
 
+    in_favorites = False
+    if request.user.is_authenticated:
+        in_favorites = Favorites.objects.filter(user=request.user, movie=movie).exists()
+
     user_review = None
     if request.user.is_authenticated:
         user_review = Review.objects.filter(user=request.user, movie=movie).first()
@@ -55,6 +59,7 @@ def movie_view(request, movie_id):
         'movie': movie,
         'user_review': user_review,
         'in_watchlist': in_watchlist,
+        'in_favorites': in_favorites,
     }
     
     return render(request, 'movie_service/movie_page.html', context)
@@ -146,6 +151,42 @@ def remove_from_watchlist(request, movie_id):
 
         if deleted:
             messages.success(request, 'Фильм удален из списка "Буду смотреть".')
+        else:
+            messages.info(request, 'Этого фильма нет в вашем списке.')
+
+    return redirect('movie_page', movie_id=movie_id)
+
+@login_required(login_url='/auth/login')
+def add_to_favorites(request, movie_id):
+    if request.method == 'POST':
+        movie = get_object_or_404(Movie, pk=movie_id)
+
+        favorites_item, created = Favorites.objects.get_or_create(
+            user = request.user,
+            movie=movie
+        )
+
+        if created:
+            messages.success(request, 'Фильм добавлен в список "Любимое"')
+        else:
+            messages.info(request, 'Этот фильм уже в вашем списке "Любимое"')
+    
+    return redirect('movie_page', movie_id=movie_id)
+
+
+
+@login_required(login_url='/auth/login')
+def remove_from_favorites(request, movie_id):
+    if request.method == 'POST':
+        movie = get_object_or_404(Movie, pk=movie_id)
+
+        deleted, _ = Favorites.objects.filter(
+            user=request.user,
+            movie=movie
+        ).delete()
+
+        if deleted:
+            messages.success(request, 'Фильм удален из списка "Любимое".')
         else:
             messages.info(request, 'Этого фильма нет в вашем списке.')
 
