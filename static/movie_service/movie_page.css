@@ -239,3 +239,34 @@
     margin-top: 30px;
     text-align: center;
 }
+
+.btn-add-watchlist, .btn-remove-watchlist {
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.btn-add-watchlist {
+    background: #4361ee;
+    color: white;
+}
+
+.btn-add-watchlist:hover {
+    background: #3a56d4;
+    transform: translateY(-2px);
+}
+
+.btn-remove-watchlist {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-remove-watchlist:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}

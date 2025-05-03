@@ -8,47 +8,45 @@
 {% endblock %}
 
 {% block content %}
-<body>
-    <div class="profile-container">
-        <div class="profile-header">
-            <h1>Буду смотреть</h1>
-            <div class="profile-actions">
-                <a href="{% url 'user_profile' user_id=profile_user.id %}" class="profile-button">Назад к профилю</a>
-            </div>
-        </div>
-        
-        <div class="watchlist-container">
-            {% if watchlist %}
-                <div class="stat-card full-width">
-                    <div class="movie-grid">
-                        {% for item in watchlist %}
-                            <div class="movie-card">
-                                <a href="{% url 'movie_page' movie_id=item.movie.id %}">
-                                    {% if item.movie.poster %}
-                                        <img src="{{ item.movie.poster }}" alt="{{ item.movie.title }}">
-                                    {% else %}
-                                        <div class="no-poster">Нет постера</div>
-                                    {% endif %}
-                                    <div class="movie-title">{{ item.movie.title }}</div>
-                                </a>
-                                {% if is_own_profile %}
-{#                                <form method="post" action="{% url 'remove_from_watchlist' movie_id=item.movie.id %}">#}
-{#                                    {% csrf_token %}#}
-{#                                    <button type="submit" class="remove-button">Удалить</button>#}
-{#                                </form>#}
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    
-                    {% include "user_service/pagination.html" with page_obj=watchlist %}
-                </div>
-            {% else %}
-                <div class="stat-card">
-                    <p>В списке "Буду смотреть" пока нет фильмов.</p>
-                </div>
-            {% endif %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Буду смотреть</h1>
+        <div class="profile-actions">
+            <a href="{% url 'user_profile' user_id=profile_user.id %}" class="profile-button">Назад к профилю</a>
         </div>
     </div>
-</body>
+    
+    <div class="watchlist-container">
+        {% if watchlist %}
+            <div class="stat-card full-width">
+                <div class="movie-grid">
+                    {% for item in watchlist %}
+                        <div class="movie-card">
+                            <a href="{% url 'movie_page' movie_id=item.movie.id %}" class="movie-link">
+                                {% if item.movie.poster %}
+                                    <img src="{% static 'movie_service/movie_posters/'|add:item.movie.poster %}" alt="{{ item.movie.title }}" class="movie-poster">
+                                {% else %}
+                                    <div class="no-poster">Нет постера</div>
+                                {% endif %}
+                                <div class="movie-title">{{ item.movie.title }}</div>
+                            </a>
+                            {% if is_own_profile %}
+                            <form method="post" action="{% url 'remove_from_watchlist' movie_id=item.movie.id %}" class="remove-form">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-button">Удалить</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                {% include "user_service/pagination.html" with page_obj=watchlist %}
+            </div>
+        {% else %}
+            <div class="stat-card">
+                <p>В списке "Буду смотреть" пока нет фильмов.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

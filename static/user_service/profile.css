@@ -220,16 +220,26 @@
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    background: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .movie-card:hover {
     transform: translateY(-5px);
 }
 
+.movie-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .movie-card img {
     width: 100%;
     height: 225px;
     object-fit: cover;
+    display: block;
 }
 
 .no-poster {
@@ -246,19 +256,37 @@
     padding: 10px;
     font-weight: 500;
     background: white;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    color: #333;
+}
+
+.remove-form {
+    padding: 0 10px 10px 10px;
+    margin-top: auto;
 }
 
 .remove-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: rgba(255, 0, 0, 0.7);
+    width: 100%;
+    background: #e74c3c;
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 5px 8px;
-    font-size: 12px;
+    padding: 8px 10px;
+    font-size: 13px;
     cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.remove-button:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Удаляем эффект затемнения, так как кнопка теперь не поверх изображения */
+.movie-card:hover::after {
+    content: none;
 }
 
 /* Пагинация */
@@ -277,5 +305,4 @@
     margin: 0 10px;
     color: #666;
 }
-
 
