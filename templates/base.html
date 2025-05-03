@@ -18,6 +18,7 @@
                 </div>
                 <div class="nav-links">
                     <a href="{% url 'film_catalog' %}">Каталог</a>
+                    <a href="{% url 'top_content' %}">Лучшее</a>
                     {% if user.is_authenticated %}
                         <div class="dropdown">
                             <a href="{% url 'user_profile' user_id=user.id %}">Мой профиль</a>
@@ -38,6 +39,17 @@
             </nav>
         </div>
     </header>
+    
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+            <button class="close-message">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- Main Content -->
     <main>
@@ -51,6 +63,17 @@
         </div>
     </footer>
 
-    {% block scripts %}{% endblock %}
+    {% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.close-message');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+        });
+    </script>
+    {% endblock %}
 </body>
 </html>

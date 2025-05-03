@@ -4,11 +4,11 @@
 {% block title %}Редактировать профиль{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'user_service/edit.css' %}">
+    <link rel="stylesheet" href="{% static 'user_service/edit.css' %}">
 {% endblock %}
-{#TODO: make this work#}
+
 {% block content %}
-<body>
+<div class="edit-container">
     <div class="edit-profile-box">
         <div class="edit-profile-title">Редактировать профиль</div>
         <form method="post" novalidate>
@@ -61,5 +61,5 @@
             <button type="submit" name="change_password" class="submit-button">Сменить пароль</button>
         </form>
     </div>
-</body>
+</div>
 {% endblock %}

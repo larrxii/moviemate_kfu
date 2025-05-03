@@ -3,144 +3,169 @@
 
 {% block title %}{{ movie.title }} ({{ movie.year }}){% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'movie_service/catalog.css' %}">
+    <link rel="stylesheet" href="{% static 'movie_service/movie_page.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="movie-detail">
-        <div class="movie-header">
-            <div class="movie-poster-container">
-                {% if movie.poster %}
-                <img src="{% static 'movie_service/movie_posters/'|add:movie.poster %}" alt="{{ movie.title }}" class="movie-detail-poster">
-                {% else %}
-                <div class="movie-poster-placeholder">Нет постера</div>
-                {% endif %}
-            </div>
-            
-            <div class="movie-info">
-                <h1>{{ movie.title }}</h1>
-                <div class="movie-meta">
-                    {% if movie.year %}<span class="movie-year">{{ movie.year }}</span>{% endif %}
-                    {% if movie.is_film %}<span class="movie-type">Фильм</span>{% else %}<span class="movie-type">Сериал</span>{% endif %}
+    <div class="container">
+        <div class="movie-detail">
+            <div class="movie-header">
+                <div class="movie-poster-container">
+                    {% if movie.poster %}
+                        <img src="{% static 'movie_service/movie_posters/'|add:movie.poster %}" alt="{{ movie.title }}"
+                             class="movie-detail-poster">
+                    {% else %}
+                        <div class="movie-poster-placeholder">Нет постера</div>
+                    {% endif %}
                 </div>
-                
-                <div class="movie-genres">
-                    {% for genre in movie.genres.all %}
-                    <span class="genre-tag">{{ genre.name }}</span>
+
+                <div class="movie-info">
+                    <h1>{{ movie.title }}</h1>
+                    <div class="movie-meta">
+                        {% if movie.year %}<span class="movie-year">{{ movie.year }}</span>{% endif %}
+                        {% if movie.is_film %}<span class="movie-type">Фильм</span>{% else %}
+                            <span class="movie-type">Сериал</span>{% endif %}
+                    </div>
+
+                    <div class="movie-genres">
+                        {% for genre in movie.genres.all %}
+                            <span class="genre-tag">{{ genre.name }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="movie-countries">
+                        <h3>Страна:</h3>
+                        <div class="country-list">
+                            {% for country in movie.countries.all %}
+                                <span class="country-item">{{ country.name }}</span>{% if not forloop.last %},
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="movie-directors">
+                        <h3>Режиссер:</h3>
+                        <div class="director-list">
+                            {% for director in movie.directors.all %}
+                                <span class="director-item">{{ director.full_name }}</span>{% if not forloop.last %},
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="movie-actions">
+                        {% if user.is_authenticated %}
+                            {% if in_watchlist %}
+                                <form method="post" action="{% url 'remove_from_watchlist' movie.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-remove-watchlist">Удалить из Буду смотреть</button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="{% url 'add_to_watchlist' movie.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-add-watchlist">Добавить в список просмотра</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn-add-watchlist">Добавить в список просмотра</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="movie-description">
+                <h2>Описание</h2>
+                <p>{{ movie.description|linebreaks }}</p>
+            </div>
+
+            <div class="movie-cast">
+                <h2>В ролях</h2>
+                <div class="actor-list">
+                    {% for actor in movie.actors.all %}
+                        <div class="actor-card">
+                            {% if actor.photo %}
+                                <img src="{{ actor.photo }}" alt="{{ actor.full_name }}" class="actor-photo">
+                            {% else %}
+                                <div class="actor-photo-placeholder"></div>
+                            {% endif %}
+                            <div class="actor-name">{{ actor.full_name }}</div>
+                        </div>
+                    {% empty %}
+                        <p>Информация об актерах отсутствует</p>
                     {% endfor %}
                 </div>
-                
-                <div class="movie-countries">
-                    <h3>Страна:</h3>
-                    <div class="country-list">
-                        {% for country in movie.countries.all %}
-                        <span class="country-item">{{ country.name }}</span>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                
-                <div class="movie-directors">
-                    <h3>Режиссер:</h3>
-                    <div class="director-list">
-                        {% for director in movie.directors.all %}
-                        <span class="director-item">{{ director.full_name }}</span>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                
-                <div class="movie-actions">
-                    <button class="btn-add-watchlist">Добавить в список просмотра</button>
-                    <button class="btn-add-favorite">В избранное</button>
-                </div>
             </div>
-        </div>
-        
-        <div class="movie-description">
-            <h2>Описание</h2>
-            <p>{{ movie.description|linebreaks }}</p>
-        </div>
-        
-        <div class="movie-cast">
-            <h2>В ролях</h2>
-            <div class="actor-list">
-                {% for actor in movie.actors.all %}
-                <div class="actor-card">
-                    {% if actor.photo %}
-                    <img src="{{ actor.photo }}" alt="{{ actor.full_name }}" class="actor-photo">
-                    {% else %}
-                    <div class="actor-photo-placeholder"></div>
-                    {% endif %}
-                    <div class="actor-name">{{ actor.full_name }}</div>
+
+            <div class="movie-awards">
+                <h2>Награды</h2>
+                <ul class="awards-list">
+                    {% for award in movie.awards.all %}
+                        <li class="award-item">
+                            <span class="award-name">{{ award.name }}</span>
+                            {% if award.nomination %} -
+                                <span class="award-nomination">{{ award.nomination }}</span>{% endif %}
+                            {% if award.year %} ({{ award.year }}){% endif %}
+                        </li>
+                    {% empty %}
+                        <p>Информация о наградах отсутствует</p>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="movie-reviews">
+                <h2>Отзывы</h2>
+                <div class="reviews-container">
+                    {% for review in movie.reviews.all %}
+                        <div class="review-card">
+                            <div class="review-header">
+                                <span class="review-author">{{ review.user.username }}</span>
+                                <span class="review-rating">{{ review.rating }}/10</span>
+                                <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
+                            </div>
+                            <div class="review-text">
+                                {{ review.text|linebreaks }}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Отзывов пока нет. Будьте первым!</p>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <p>Информация об актерах отсутствует</p>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <div class="movie-awards">
-            <h2>Награды</h2>
-            <ul class="awards-list">
-                {% for award in movie.awards.all %}
-                <li class="award-item">
-                    <span class="award-name">{{ award.name }}</span>
-                    {% if award.nomination %} - <span class="award-nomination">{{ award.nomination }}</span>{% endif %}
-                    {% if award.year %} ({{ award.year }}){% endif %}
-                </li>
-                {% empty %}
-                <p>Информация о наградах отсутствует</p>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <div class="movie-reviews">
-            <h2>Отзывы</h2>
-            <div class="reviews-container">
-                {% for review in movie.reviews.all %}
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="review-author">{{ review.user.username }}</span>
-                        <span class="review-rating">{{ review.rating }}/10</span>
-                        <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
+
+                {% if user.is_authenticated %}
+                    <div class="add-review">
+                        <h3>Добавить отзыв</h3>
+                        <form method="post" action="{% url 'add_review' movie.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="rating">Оценка:</label>
+                                <select name="rating" id="rating" required>
+                                    {% for i in "123456789" %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="review-text">Отзыв:</label>
+                                <textarea name="text" id="review-text" rows="5"></textarea>
+                            </div>
+                            <button type="submit" class="btn-search">Отправить отзыв</button>
+                        </form>
                     </div>
-                    <div class="review-text">
-                        {{ review.text|linebreaks }}
+                {% else %}
+                    <div class="login-to-review">
+                        <p>Чтобы оставить отзыв, пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a
+                                href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
                     </div>
-                </div>
-                {% empty %}
-                <p>Отзывов пока нет. Будьте первым!</p>
-                {% endfor %}
+                {% endif %}
             </div>
-            
-            {% if user.is_authenticated %}
-            <div class="add-review">
-                <h3>Добавить отзыв</h3>
-{#                TODO: make it work#}
-                <form method="post" action="{% url 'add_review' movie.id %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="rating">Оценка:</label>
-                        <select name="rating" id="rating" required>
-                            {% for i in "12345678910" %}
-                            <option value="{{ i }}">{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="review-text">Отзыв:</label>
-                        <textarea name="text" id="review-text" rows="5"></textarea>
-                    </div>
-                    <button type="submit" class="btn-search">Отправить отзыв</button>
-                </form>
+
+            <div class="back-to-catalog">
+                <a href="{% url 'film_catalog' %}" class="btn-detail">Вернуться к каталогу</a>
             </div>
-            {% else %}
-            <div class="login-to-review">
-                <p>Чтобы оставить отзыв, пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
-            </div>
-            {% endif %}
-        </div>
-        
-        <div class="back-to-catalog">
-            <a href="{% url 'film_catalog' %}" class="btn-detail">Вернуться к каталогу</a>
         </div>
     </div>
-</div>
 {% endblock %}
