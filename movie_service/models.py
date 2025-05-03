@@ -156,3 +156,21 @@ class Watchlist(models.Model):
         
     def __str__(self):
         return f"{self.user} added {self.movie} to watchlist"
+
+class FavoriteManager(models.Manager):
+    def add_to_favorite(self, user, movie):
+        favorite_item, created = self.get_or_create(user=user, movie=movie)
+        return favorite_item
+    
+class Favorites(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    objects = FavoriteManager()
+
+    class Meta:
+        db_table = 'favorites'
+        unique_together = ('user', 'movie')
+
+    def __str__(self):
+        return f"{self.user} added {self.movie} to favorites"
