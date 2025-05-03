@@ -1,0 +1,241 @@
+.movie-detail {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.movie-header {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.movie-poster-container {
+    flex: 0 0 300px;
+}
+
+.movie-detail-poster {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.movie-poster-placeholder {
+    width: 100%;
+    height: 450px;
+    background: #eef6fb;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #636e72;
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.movie-info h1 {
+    margin: 0 0 10px 0;
+    color: #22223b;
+    font-size: 32px;
+}
+
+.movie-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.movie-year, .movie-type {
+    color: #636e72;
+    font-size: 18px;
+}
+
+.movie-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.movie-countries, .movie-directors {
+    margin-bottom: 15px;
+}
+
+.movie-countries h3, .movie-directors h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #22223b;
+}
+
+.country-list, .director-list {
+    color: #444;
+}
+
+.movie-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-add-watchlist, .btn-add-favorite {
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-add-watchlist {
+    background: #4361ee;
+    color: #fff;
+    border: none;
+}
+
+.btn-add-favorite {
+    background: #fff;
+    color: #4361ee;
+    border: 1px solid #4361ee;
+}
+
+.btn-add-watchlist:hover {
+    background: #2746b6;
+}
+
+.btn-add-favorite:hover {
+    background: #eef6fb;
+}
+
+.movie-description, .movie-cast, .movie-awards, .movie-reviews {
+    margin-bottom: 30px;
+}
+
+.movie-description h2, .movie-cast h2, .movie-awards h2, .movie-reviews h2 {
+    color: #22223b;
+    font-size: 24px;
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e3e8;
+}
+
+.movie-description p {
+    color: #444;
+    line-height: 1.6;
+}
+
+.actor-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.actor-card {
+    text-align: center;
+}
+
+.actor-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+.actor-photo-placeholder {
+    width: 100px;
+    height: 100px;
+    background: #eef6fb;
+    border-radius: 50%;
+    margin: 0 auto 8px auto;
+}
+
+.actor-name {
+    font-size: 14px;
+    color: #444;
+}
+
+.awards-list {
+    padding-left: 20px;
+}
+
+.award-item {
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.award-name {
+    font-weight: bold;
+}
+
+.review-card {
+    background: #f7fafd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.review-author {
+    font-weight: bold;
+    color: #22223b;
+}
+
+.review-rating {
+    color: #4361ee;
+    font-weight: bold;
+}
+
+.review-date {
+    color: #636e72;
+}
+
+.review-text {
+    color: #444;
+    line-height: 1.5;
+}
+
+.add-review {
+    margin-top: 25px;
+    background: #eef6fb;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.add-review h3 {
+    margin: 0 0 15px 0;
+    color: #22223b;
+    font-size: 18px;
+}
+
+.login-to-review {
+    margin-top: 20px;
+    text-align: center;
+    padding: 15px;
+    background: #eef6fb;
+    border-radius: 10px;
+}
+
+.login-to-review a {
+    color: #4361ee;
+    text-decoration: none;
+}
+
+.login-to-review a:hover {
+    text-decoration: underline;
+}
+
+.back-to-catalog {
+    margin-top: 30px;
+    text-align: center;
+}

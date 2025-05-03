@@ -3,6 +3,11 @@
 
 {% block title %}{{ movie.title }} ({{ movie.year }}){% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'movie_service/catalog.css' %}">
+<link rel="stylesheet" href="{% static 'movie_service/movie_page.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="movie-detail">

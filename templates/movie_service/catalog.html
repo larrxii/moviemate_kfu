@@ -1,8 +1,11 @@
-
 {% extends "base.html" %}
 {% load static %}
 
 {% block title %}Каталог фильмов{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'movie_service/catalog.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container">

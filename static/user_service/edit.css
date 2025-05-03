@@ -1,10 +1,16 @@
+.edit-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 .edit-profile-box {
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 6px 32px rgba(67, 97, 238, 0.08);
     max-width: 380px;
     width: 100%;
-    margin: 48px 0 0 0;
+    margin: 48px 0;
     padding: 38px 30px 28px 30px;
     box-sizing: border-box;
     animation: fadeIn 0.7s;

@@ -3,6 +3,11 @@
 
 {% block title %}Лучшее{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'movie_service/catalog.css' %}">
+<link rel="stylesheet" href="{% static 'movie_service/top_content.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <h1>Лучшее</h1>
