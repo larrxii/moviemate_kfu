@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'auth_service',
     'user_service',
     'movie_service',
+    'recommendation_service',
 ]
 
 MIDDLEWARE = [

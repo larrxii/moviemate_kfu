@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Рекомендации {{ content_type }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'recommendation_service/recommendations.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="recommendations-container">
+    <div class="recommendations-header">
+        <h1>Рекомендации {{ content_type }} для вас</h1>
+        <div class="content-type-toggle">
+            <a href="{% url 'user_recommendations' user_id=user.id %}?type=film" class="toggle-button {% if is_film %}active{% endif %}">Фильмы</a>
+            <a href="{% url 'user_recommendations' user_id=user.id %}?type=series" class="toggle-button {% if not is_film %}active{% endif %}">Сериалы</a>
+        </div>
+    </div>
+    
+    {% if recommendations %}
+        <div class="recommendations-grid">
+            {% for movie, score in recommendations %}
+                <div class="movie-card">
+                    <a href="{% url 'movie_page' movie_id=movie.id %}">
+                        {% if movie.poster %}
+                            <img src="{% static 'movie_service/movie_posters/'|add:movie.poster %}" alt="{{ movie.title }}" class="movie-poster">
+                        {% else %}
+                            <div class="no-poster">Нет постера</div>
+                        {% endif %}
+                        <div class="movie-info">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                            <p class="movie-year">{{ movie.year }}</p>
+                            <div class="movie-genres">
+                                {% for genre in movie.genres.all|slice:":3" %}
+                                    <span class="genre-tag">{{ genre.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-recommendations">
+            <p>У нас пока недостаточно данных для формирования персональных рекомендаций.</p>
+            <p>Оцените больше {{ content_type }}, чтобы получить рекомендации.</p>
+            <a href="{% url 'film_catalog' %}" class="btn-catalog">Перейти в каталог</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
