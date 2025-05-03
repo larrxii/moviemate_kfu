@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Подбор фильмов и сериалов{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="recommendation-container">
+    <div class="recommendation-hero">
+        <h1 class="main-title">Сервис для подбора фильмов и сериалов</h1>
+        <p class="subtitle">Персональные рекомендации на основе ваших предпочтений</p>
+        
+        <div class="recommendation-selection">
+            <h2 class="selection-title">Что подбираем сегодня?</h2>
+            
+            <div class="selection-buttons">
+                {% if user.is_authenticated %}
+                <a href="{% url 'user_recommendations' user_id=user.id %}?type=film" class="selection-button film-button">
+                    <div class="button-icon">🎬</div>
+                    <span>Фильм</span>
+                </a>
+                
+                <a href="{% url 'user_recommendations' user_id=user.id %}?type=series" class="selection-button series-button">
+                    <div class="button-icon">📺</div>
+                    <span>Сериал</span>
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="selection-button film-button">
+                    <div class="button-icon">🎬</div>
+                    <span>Фильм</span>
+                </a>
+                
+                <a href="{% url 'login' %}" class="selection-button series-button">
+                    <div class="button-icon">📺</div>
+                    <span>Сериал</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if not user.is_authenticated %}
+        <div class="auth-message">
+            <p>Для получения персональных рекомендаций необходимо <a href="{% url 'login' %}">войти</a> или <a href="{% url 'register' %}">зарегистрироваться</a>.</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="how-it-works">
+        <h2>Как это работает?</h2>
+        
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Оценивайте фильмы</h3>
+                    <p>Чем больше фильмов вы оцените, тем точнее будут рекомендации</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Выбирайте категорию</h3>
+                    <p>Укажите, что вы хотите посмотреть: фильм или сериал</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Получайте рекомендации</h3>
+                    <p>Наш ИИ подберет для вас лучшие варианты на основе ваших предпочтений</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

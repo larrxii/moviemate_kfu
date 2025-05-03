@@ -1,0 +1,152 @@
+.recommendations-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.recommendations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.recommendations-header h1 {
+    font-size: 2.2rem;
+    color: #22223b;
+    margin: 0;
+}
+
+.content-type-toggle {
+    display: flex;
+    background: #f0f2f5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.toggle-button {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: #636e72;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.toggle-button.active {
+    background: #4361ee;
+    color: white;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.movie-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.movie-poster {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.no-poster {
+    width: 100%;
+    height: 280px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-title {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #22223b;
+}
+
+.movie-year {
+    margin: 0 0 10px 0;
+    color: #636e72;
+    font-size: 14px;
+}
+
+.movie-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.genre-tag {
+    background: #eef6fb;
+    color: #4361ee;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.no-recommendations {
+    text-align: center;
+    padding: 60px 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.no-recommendations p {
+    color: #636e72;
+    margin-bottom: 15px;
+}
+
+.btn-catalog {
+    display: inline-block;
+    background: #4361ee;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: background 0.2s;
+}
+
+.btn-catalog:hover {
+    background: #3a56d4;
+}
+
+@media (max-width: 768px) {
+    .recommendations-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .recommendations-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
