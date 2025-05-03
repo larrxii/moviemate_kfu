@@ -1,9 +1,11 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect
 from movie_service.models import Movie, Genre, Review
 from movie_service.forms import MovieFilterForm
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.db.models import Avg, Count
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def catalog_view(request):
@@ -40,8 +42,13 @@ def catalog_view(request):
 def movie_view(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
 
+    user_review = None
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(user=request.user, movie=movie).first()
+
     context = {
         'movie': movie,
+        'user_review': user_review,
     }
     
     return render(request, 'movie_service/movie_page.html', context)
@@ -69,3 +76,35 @@ def top_content_view(request):
     }
     
     return render(request, 'movie_service/top_content.html', context)
+
+@login_required(login_url='/auth/login')
+def add_review(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    # Check if user already left review to film
+    existing_review = Review.objects.filter(user=request.user, movie=movie).first()
+
+    if existing_review:
+        messages.error(request, 'Вы уже оставили отзыв на этот фильм.')
+        return redirect('movie_page', movie_id=movie_id)
+
+    if request.method == 'POST':
+        rating = int(request.POST.get('rating'))
+        text = request.POST.get('text', '')
+
+        if not 1 <= rating <= 10:
+            messages.error(request, 'Оценка должна быть от 1 до 10.')
+            return redirect('movie_page', movie_id=movie_id)
+
+        Review.objects.create(
+            user=request.user,
+            movie=movie,
+            rating=rating,
+            text=text
+        )
+        messages.success(request, 'Ваш отзыв добавлен.')
+
+        return redirect('movie_page', movie_id=movie_id)
+
+
+    return redirect('movie_page', movie_id=movie_id)

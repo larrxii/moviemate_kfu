@@ -113,15 +113,15 @@
             {% if user.is_authenticated %}
             <div class="add-review">
                 <h3>Добавить отзыв</h3>
-{#                TODO: make it work#}
                 <form method="post" action="{% url 'add_review' movie.id %}">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="rating">Оценка:</label>
                         <select name="rating" id="rating" required>
-                            {% for i in "12345678910" %}
+                            {% for i in "123456789" %}
                             <option value="{{ i }}">{{ i }}</option>
                             {% endfor %}
+                            <option value="10">10</option>
                         </select>
                     </div>
                     <div class="form-group">
