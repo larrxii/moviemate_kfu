@@ -71,6 +71,20 @@
                         {% else %}
                             <a href="{% url 'login' %}" class="btn-add-watchlist">Добавить в список просмотра</a>
                         {% endif %}
+
+                        {% if user.is_authenticated %}
+                            {% if in_favorites %}
+                                <form method="POST" action="{% url 'remove_from_favorites' movie.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-remove-watchlist">Удалить из любимого</button>
+                                </form>
+                            {% else %}
+                                <form method="POST" action="{% url 'add_to_favorites' movie.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-add-watchlist">Добавить в любимое</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
                     </div>
 
                 </div>

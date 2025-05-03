@@ -47,6 +47,10 @@ def movie_view(request, movie_id):
     if request.user.is_authenticated:
         in_watchlist = Watchlist.objects.filter(user=request.user, movie=movie).exists()
 
+    in_favorites = False
+    if request.user.is_authenticated:
+        in_favorites = Favorites.objects.filter(user=request.user, movie=movie).exists()
+
     user_review = None
     if request.user.is_authenticated:
         user_review = Review.objects.filter(user=request.user, movie=movie).first()
@@ -55,6 +59,7 @@ def movie_view(request, movie_id):
         'movie': movie,
         'user_review': user_review,
         'in_watchlist': in_watchlist,
+        'in_favorites': in_favorites,
     }
     
     return render(request, 'movie_service/movie_page.html', context)
